@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 import pandas as pd
 import os
 
@@ -33,28 +33,28 @@ meses_map = {
 
 app = FastAPI()
 
-# Cambia esta variable según sea necesario para tu entorno de ejecución
-BASE_URL = "http://localhost:8000"  # Cambia a tu dominio o IP
-
 @app.get("/")
-def read_root():
+def read_root(request: Request):
+    # Construir la URL base usando el esquema y el host de la solicitud
+    base_url = f"{request.scheme}://{request.headers['host']}"
+
     return {
         "message": "Bienvenido a la API de películas.",
         "instructions": "Usa el endpoint /peliculas/?mes=nombre_del_mes para obtener datos.",
         "example": "Por ejemplo, para obtener el conteo de películas de enero, visita /peliculas/?mes=enero",
         "links": [
-            {"mes": "enero", "url": f"{BASE_URL}/peliculas/?mes=enero"},
-            {"mes": "febrero", "url": f"{BASE_URL}/peliculas/?mes=febrero"},
-            {"mes": "marzo", "url": f"{BASE_URL}/peliculas/?mes=marzo"},
-            {"mes": "abril", "url": f"{BASE_URL}/peliculas/?mes=abril"},
-            {"mes": "mayo", "url": f"{BASE_URL}/peliculas/?mes=mayo"},
-            {"mes": "junio", "url": f"{BASE_URL}/peliculas/?mes=junio"},
-            {"mes": "julio", "url": f"{BASE_URL}/peliculas/?mes=julio"},
-            {"mes": "agosto", "url": f"{BASE_URL}/peliculas/?mes=agosto"},
-            {"mes": "septiembre", "url": f"{BASE_URL}/peliculas/?mes=septiembre"},
-            {"mes": "octubre", "url": f"{BASE_URL}/peliculas/?mes=octubre"},
-            {"mes": "noviembre", "url": f"{BASE_URL}/peliculas/?mes=noviembre"},
-            {"mes": "diciembre", "url": f"{BASE_URL}/peliculas/?mes=diciembre"},
+            {"mes": "enero", "url": f"{base_url}/peliculas/?mes=enero"},
+            {"mes": "febrero", "url": f"{base_url}/peliculas/?mes=febrero"},
+            {"mes": "marzo", "url": f"{base_url}/peliculas/?mes=marzo"},
+            {"mes": "abril", "url": f"{base_url}/peliculas/?mes=abril"},
+            {"mes": "mayo", "url": f"{base_url}/peliculas/?mes=mayo"},
+            {"mes": "junio", "url": f"{base_url}/peliculas/?mes=junio"},
+            {"mes": "julio", "url": f"{base_url}/peliculas/?mes=julio"},
+            {"mes": "agosto", "url": f"{base_url}/peliculas/?mes=agosto"},
+            {"mes": "septiembre", "url": f"{base_url}/peliculas/?mes=septiembre"},
+            {"mes": "octubre", "url": f"{base_url}/peliculas/?mes=octubre"},
+            {"mes": "noviembre", "url": f"{base_url}/peliculas/?mes=noviembre"},
+            {"mes": "diciembre", "url": f"{base_url}/peliculas/?mes=diciembre"},
         ]
     }
 
